@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.electroniccemetery.controller.AdminSectionsController"
+            prefWidth="650" prefHeight="700" maxWidth="650" maxHeight="700">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <Button text="Назад" onAction="#onBackClick" fx:id="backBtn" prefWidth="80"/>
+            <Label text="Администрирование секторов" styleClass="title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" alignment="TOP_CENTER">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+            <!-- Только комбобокс без текста -->
+            <ComboBox fx:id="cemeteryCombo" onAction="#onCemeteryChanged" prefWidth="300" maxWidth="300"/>
+
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="numberField" promptText="Номер сектора" prefWidth="200"/>
+                <Button text="Сохранить" onAction="#onSaveClick" fx:id="saveBtn" prefWidth="150"/>
+            </HBox>
+
+            <Label fx:id="statusLabel" textFill="red"/>
+
+            <TableView fx:id="sectionsTable" prefHeight="300" prefWidth="400">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
+                    <TableColumn fx:id="colNumber" text="Номер сектора" prefWidth="300"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

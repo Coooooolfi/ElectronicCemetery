@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.electroniccemetery.controller.SearchResultsController">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="Назад" onAction="#onBackClick"/>
+            <Label text="Результаты поиска по ФИО"
+                   styleClass="title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <content>
+                <VBox fx:id="resultsBox" spacing="10"/>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

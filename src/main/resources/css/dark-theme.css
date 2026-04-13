@@ -1,0 +1,100 @@
+/* Общие настройки */
+.root {
+    -fx-background-color: #F5F7F9;
+    -fx-text-fill: #263238;
+    -fx-font-size: 15px;
+}
+
+/* Заголовки */
+.label.title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #455A64;
+}
+
+/* Обычные Label */
+.label {
+    -fx-text-fill: #37474F;
+}
+
+/* Текст */
+Text {
+    -fx-fill: #37474F;
+}
+
+/* Кнопочки */
+.button {
+    -fx-background-color: #78909C;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-background-radius: 4;
+}
+.button:hover {
+    -fx-background-color: #90A4AE;
+}
+.button:pressed {
+    -fx-background-color: #607D8B;
+}
+
+/* Поля ввода */
+.text-field, .password-field {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #263238;
+    -fx-prompt-text-fill: #90A4AE;
+    -fx-border-color: #CFD8DC;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+/* ScrollPane фон */
+.scroll-pane {
+    -fx-background-color: #F5F7F9;
+}
+.scroll-pane > .viewport {
+    -fx-background-color: #F5F7F9;
+}
+
+/* Карточки кладбищ, участков, захоронений */
+.cemetery-card, .grave-card, .deceased-card {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 12;
+    -fx-border-color: #ECEFF1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/* Таблицы */
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-table-cell-border-color: #ECEFF1;
+    -fx-control-inner-background: #FFFFFF;
+    -fx-control-inner-background-alt: #F9FAFB;
+    -fx-text-background-color: #37474F;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #F9FAFB;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #FFFFFF;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #ECEFF1;
+}
+
+.table-view .column-header {
+    -fx-background-color: #ECEFF1;
+    -fx-text-fill: #455A64;
+    -fx-border-color: #CFD8DC;
+}
+
+.scroll-pane {
+    -fx-fit-to-width: true;
+    -fx-fit-to-height: true;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}

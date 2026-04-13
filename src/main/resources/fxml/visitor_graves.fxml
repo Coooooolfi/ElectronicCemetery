@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.electroniccemetery.controller.VisitorGravesController"
+            prefWidth="650"
+            prefHeight="700"
+            maxWidth="650"
+            maxHeight="700">
+
+    <top>
+        <VBox spacing="5">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Назад" onAction="#onBackClick"/>
+                <Label text="Выбран" styleClass="title"/>
+                <Label fx:id="plotLabel" styleClass="title"/>
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField"
+                           promptText="Поиск умершего по ФИО"
+                           maxWidth="400"
+                           HBox.hgrow="ALWAYS"/>
+                <Button text="Найти" onAction="#onSearchClick"
+                        prefWidth="80" maxWidth="80"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <content>
+                <VBox fx:id="graveList"
+                    spacing="10"
+                    maxWidth="600"
+                    alignment="TOP_CENTER"/>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

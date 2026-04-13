@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.electroniccemetery.controller.StartController"
+            prefWidth="650"
+            prefHeight="700"
+            maxWidth="650"
+            maxHeight="700">
+    <center>
+        <StackPane>
+            <VBox alignment="CENTER" spacing="20"
+                prefWidth="600" maxWidth="600">
+                <Label text="Информационная система учёта захоронений"
+                    styleClass="title"/>
+                <HBox spacing="20" alignment="CENTER">
+                    <Button text="Войти" onAction="#onLoginClick"
+                            prefWidth="120" maxWidth="120"/>
+                    <Button text="Посетитель" onAction="#onVisitorClick"
+                            prefWidth="120" maxWidth="120"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

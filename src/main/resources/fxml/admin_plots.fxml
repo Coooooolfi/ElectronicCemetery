@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.electroniccemetery.controller.AdminPlotsController"
+            prefWidth="650" prefHeight="700" maxWidth="650" maxHeight="700">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <Button text="Назад" onAction="#onBackClick" fx:id="backBtn" prefWidth="80"/>
+            <Label text="Администрирование участков" styleClass="title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" alignment="TOP_CENTER">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+            <!-- комбобокс без текста -->
+            <ComboBox fx:id="cemeteryCombo" onAction="#onCemeteryChanged" prefWidth="300" maxWidth="300"/>
+            <ComboBox fx:id="sectionCombo" onAction="#onSectionChanged" prefWidth="300" maxWidth="300"/>
+
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="numberField" promptText="Номер участка" prefWidth="200" maxWidth="200"/>
+                <Button text="Сохранить" onAction="#onSaveClick" fx:id="saveBtn" prefWidth="150" maxWidth="150"/>
+            </HBox>
+
+            <Label fx:id="statusLabel" textFill="red"/>
+
+            <TableView fx:id="plotsTable" prefHeight="300" prefWidth="500">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
+                    <TableColumn fx:id="colNumber" text="Номер участка" prefWidth="200"/>
+                    <TableColumn fx:id="colSection" text="Сектор" prefWidth="200"/>
+                </columns>
+            </TableView>
+
+            <Button text="Удалить выбранный участок" onAction="#onDeleteClick" prefWidth="200"/>
+        </VBox>
+    </center>
+</BorderPane>

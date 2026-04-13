@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.electroniccemetery.controller.AdminCemeteriesController"
+            prefWidth="700" prefHeight="650" maxWidth="700" maxHeight="650">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <Button text="Назад" onAction="#onBackClick" fx:id="backBtn"/>
+            <Label text="Управление кладбищами" styleClass="title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" alignment="TOP_CENTER">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+            <TableView fx:id="cemeteriesTable" prefHeight="250">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="colName" text="Название" prefWidth="250"/>
+                    <TableColumn fx:id="colAddress" text="Адрес" prefWidth="350"/>
+                </columns>
+            </TableView>
+
+            <Separator/>
+
+            <GridPane hgap="10" vgap="10" alignment="CENTER">
+                <Label text="Название:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="300"/>
+
+                <Label text="Адрес:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="addressField" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="300"/>
+
+                <Label text="Кол-во секторов:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="sectionsCountField" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="(необязательно)"/>
+
+
+                <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2">
+                    <Button text="Сохранить" onAction="#onSaveClick" fx:id="saveBtn" prefWidth="100"/>
+                    <Button text="Удалить выбранное" onAction="#onDeleteClick" fx:id="deleteBtn" prefWidth="150"/>
+                </HBox>
+            </GridPane>
+
+            <Label fx:id="statusLabel" textFill="red"/>
+        </VBox>
+    </center>
+</BorderPane>

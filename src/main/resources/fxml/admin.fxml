@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.electroniccemetery.controller.AdminController"
+            prefWidth="650" prefHeight="700" maxWidth="650" maxHeight="700">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <Button text="Выход" onAction="#onLogoutClick" fx:id="logoutBtn"/>
+            <Label text="Панель администратора" styleClass="title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <Label fx:id="infoLabel" wrapText="true" textAlignment="CENTER"/>
+
+            <Separator/>
+
+            <Button text="Администрирование секторов" onAction="#onSectionsClick" fx:id="manageSectionsBtn" prefWidth="250"/>
+            <Button text="Администрирование участков" onAction="#onPlotsClick" fx:id="managePlotsBtn" prefWidth="250"/>
+            <Button text="Администрирование захоронений" onAction="#onGravesClick" fx:id="manageGravesBtn" prefWidth="250"/>
+            <Button text="Администрирование усопших" onAction="#onDeceasedClick" fx:id="manageDeceasedBtn" prefWidth="250"/>
+        </VBox>
+    </center>
+</BorderPane>

@@ -59,7 +59,7 @@ public class SearchResultsController {
             String path = deceasedDao.getBurialPathByDeceasedId(d.getId());
             Text pathText = new Text(path == null ? "" : path);
 
-            Button openBtn = new Button("Открыть захоронение");
+            Button openBtn = new Button("Просмотреть захоронение");
             openBtn.setOnAction(e -> openBurial(d));
 
             card.getChildren().addAll(name, pathText, dateText, desc, openBtn);

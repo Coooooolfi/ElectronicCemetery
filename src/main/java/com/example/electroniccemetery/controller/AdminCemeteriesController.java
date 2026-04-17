@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.Optional;
+
 
 public class AdminCemeteriesController {
 
@@ -25,7 +27,6 @@ public class AdminCemeteriesController {
     @FXML private TextField sectionsCountField;
     @FXML private Label statusLabel;
     @FXML private Button backBtn;
-    @FXML private Button saveBtn;
     @FXML private Button deleteBtn;
 
     private final CemeteryDao cemeteryDao = new CemeteryDao();
@@ -37,6 +38,15 @@ public class AdminCemeteriesController {
         setupTable();
         loadCemeteries();
         fixWindowSize();
+        cemeteriesTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
+            if (selected != null) {
+                nameField.setText(selected.getName());
+                addressField.setText(selected.getAddress());
+            } else {
+                nameField.clear();
+                addressField.clear();
+            }
+        });
     }
 
     private void setupTable() {
@@ -102,6 +112,72 @@ public class AdminCemeteriesController {
     }
 
     @FXML
+    private void onAddClick() {
+        String name = nameField.getText().trim();
+        String address = addressField.getText().trim();
+        String sectionsText = sectionsCountField.getText().trim();
+
+        if (name.isEmpty() || address.isEmpty()) {
+            statusLabel.setText("Заполните название и адрес");
+            return;
+        }
+
+        int sections = 0;
+        if (!sectionsText.isEmpty()) {
+            try {
+                sections = Integer.parseInt(sectionsText);
+                if (sections < 1) {
+                    statusLabel.setText("Количество секторов должно быть ≥ 1");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                statusLabel.setText("Количество секторов – целое число");
+                return;
+            }
+        }
+
+        int cemeteryId = cemeteryDao.insertCemetery(name, address);
+        if (cemeteryId > 0) {
+            if (sections > 0) {
+                for (int i = 1; i <= sections; i++) {
+                    sectionDao.insertSection(cemeteryId, i);
+                }
+            }
+            statusLabel.setText("Кладбище добавлено, ID = " + cemeteryId);
+            clearForm();
+            loadCemeteries();
+        } else {
+            statusLabel.setText("Ошибка при добавлении");
+        }
+    }
+
+    @FXML
+    private void onUpdateClick() {
+        Cemetery selected = cemeteriesTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            statusLabel.setText("Выберите кладбище для обновления");
+            return;
+        }
+
+        String newName = nameField.getText().trim();
+        String newAddress = addressField.getText().trim();
+
+        if (newName.isEmpty() || newAddress.isEmpty()) {
+            statusLabel.setText("Название и адрес не могут быть пустыми");
+            return;
+        }
+
+        boolean success = cemeteryDao.updateCemetery(selected.getId(), newName, newAddress);
+        if (success) {
+            statusLabel.setText("Кладбище обновлено");
+            clearForm();
+            loadCemeteries();
+        } else {
+            statusLabel.setText("Ошибка обновления");
+        }
+    }
+
+    @FXML
     private void onDeleteClick() {
         Cemetery selected = cemeteriesTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -110,18 +186,23 @@ public class AdminCemeteriesController {
         }
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Подтверждение");
-        confirm.setHeaderText("Удаление кладбища");
-        confirm.setContentText("Удалить " + selected.getName() + "? Все секторы, участки и захоронения будут удалены.");
+        confirm.setTitle("Подтверждение удаления");
+        confirm.setHeaderText("Удаление кладбища \"" + selected.getName() + "\"");
+        confirm.setContentText("Все секторы, участки, захоронения и усопшие будут удалены. Продолжить?");
 
-        if (cemeteryDao.deleteCascadeCemetery(selected.getId())) {
-            statusLabel.setText("Кладбище удалено");
-            clearForm();
-            loadCemeteries();
+        Optional<ButtonType> result = confirm.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            boolean success = cemeteryDao.deleteCascadeCemetery(selected.getId());
+            if (success) {
+                statusLabel.setText("Кладбище удалено");
+            } else {
+                statusLabel.setText("Ошибка при удалении");
+            }
         } else {
-            statusLabel.setText("Ошибка при удалении");
+            statusLabel.setText("Удаление отменено");
         }
     }
+
 
     @FXML
     private void onBackClick() {
@@ -134,6 +215,7 @@ public class AdminCemeteriesController {
         addressField.clear();
         sectionsCountField.clear();
         cemeteriesTable.getSelectionModel().clearSelection();
+        statusLabel.setText("");
     }
 
     private void fixWindowSize() {

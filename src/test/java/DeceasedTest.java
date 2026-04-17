@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DeceasedTest {
 
+    //проверка формирования ФИО
     @Test
     void testGetFullName_WithAllParts() {
         Deceased deceased = new Deceased(
@@ -17,6 +18,7 @@ class DeceasedTest {
         assertEquals("Иванов Иван Иванович", result);
     }
 
+    //проверка формирования ФИ без отчества
     @Test
     void testGetFullName_WithoutMiddleName() {
         Deceased deceased = new Deceased(
@@ -29,6 +31,7 @@ class DeceasedTest {
         assertEquals("Петров Петр", result);
     }
 
+    //тестирование геттеров (правильность сохранения данных в полях)
     @Test
     void testGetters() {
         LocalDate birth = LocalDate.of(1950, 3, 12);

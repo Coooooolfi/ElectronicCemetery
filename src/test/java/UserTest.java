@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
 
+    // тестирование формирования полного ФИО
     @Test
     void testGetFullName() {
         User user = new User(
@@ -14,6 +15,7 @@ class UserTest {
         assertEquals("Павлеченко Ирина Ивановна", user.getFullName());
     }
 
+    // тестирование формирования ФИ без отчества
     @Test
     void testGetFullName_WithoutMiddleName() {
         User user = new User(
@@ -24,6 +26,8 @@ class UserTest {
         assertEquals("Ковалев Николай", user.getFullName());
     }
 
+
+    //проверка поведения при отсутсвии привязки к кладбищу
     @Test
     void testUserWithNullCemetery() {
         User user = new User(

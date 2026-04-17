@@ -1,39 +1,34 @@
-import com.example.electroniccemetery.dao.UserDao;
+import com.example.electroniccemetery.dao.PlotDao;
 import com.example.electroniccemetery.util.DbConnection;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class UserDaoTest {
+class PlotDaoTest {
 
-    //тестирование получения роли
+    //проверка логики существования участка
     @Test
-    void testCheckAndGetRole_ReturnsRole() throws Exception {
-        // создание моков
+    void testExistsBySectionAndNumber_ReturnsTrue() throws Exception {
+        //поддельное подключение
         Connection mockConnection = mock(Connection.class);
         PreparedStatement mockStatement = mock(PreparedStatement.class);
         ResultSet mockResultSet = mock(ResultSet.class);
 
-        // настройка поведения
+        //настройка цепочки вызовов
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultSet);
-        when(mockResultSet.next()).thenReturn(true);
-        when(mockResultSet.getString("Name_Role")).thenReturn("Администратор");
+        when(mockResultSet.next()).thenReturn(true); // запись существует
 
-        // подмена метода DbConnection.getConnection()
+        //подмена стат. метода подключения к БД своим моком
         try (MockedStatic<DbConnection> mockedDb = mockStatic(DbConnection.class)) {
             mockedDb.when(DbConnection::getConnection).thenReturn(mockConnection);
-
-            UserDao userDao = new UserDao();
-            String role = userDao.checkAndGetRole("admin1", "12345");
-
-            assertEquals("Администратор", role);
+            PlotDao plotDao = new PlotDao();
+            boolean exists = plotDao.existsBySectionAndNumber(1, 5);
+            assertTrue(exists);
         }
     }
 }

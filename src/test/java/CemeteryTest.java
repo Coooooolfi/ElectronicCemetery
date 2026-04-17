@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CemeteryTest {
 
+    //проверка создания объекта через конструктор
     @Test
     void testCemeteryConstructor() {
         Cemetery cemetery = new Cemetery(1, "Северное кладбище", "ул.Лесная, 15");
@@ -13,6 +14,7 @@ class CemeteryTest {
         assertEquals("ул.Лесная, 15", cemetery.getAddress());
     }
 
+    //проверка создания объекта без адреса
     @Test
     void testCemeteryWithEmptyAddress() {
         Cemetery cemetery = new Cemetery(2, "Восточное кладбище", "");

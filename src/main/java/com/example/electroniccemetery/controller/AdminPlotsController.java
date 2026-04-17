@@ -12,19 +12,30 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AdminPlotsController {
 
-    @FXML private ComboBox<Cemetery> cemeteryCombo;
-    @FXML private ComboBox<Section> sectionCombo;
-    @FXML private TextField numberField;
-    @FXML private Label statusLabel;
-    @FXML private TableView<Plot> plotsTable;
-    @FXML private TableColumn<Plot, Number> colId;
-    @FXML private TableColumn<Plot, Number> colNumber;
-    @FXML private TableColumn<Plot, String> colSection;
-    @FXML private Button backBtn;
-    @FXML private Button saveBtn;
+    @FXML
+    private ComboBox<Cemetery> cemeteryCombo;
+    @FXML
+    private ComboBox<Section> sectionCombo;
+    @FXML
+    private TextField numberField;
+    @FXML
+    private Label statusLabel;
+    @FXML
+    private TableView<Plot> plotsTable;
+    @FXML
+    private TableColumn<Plot, Number> colId;
+    @FXML
+    private TableColumn<Plot, Number> colNumber;
+    @FXML
+    private TableColumn<Plot, String> colSection;
+    @FXML
+    private Button backBtn;
+    @FXML
+    private Button saveBtn;
 
     private final CemeteryDao cemeteryDao = new CemeteryDao();
     private final SectionDao sectionDao = new SectionDao();
@@ -184,6 +195,50 @@ public class AdminPlotsController {
             onSectionChanged();
         } else {
             statusLabel.setText("Ошибка при добавлении участка");
+        }
+    }
+    @FXML
+    private void onEditPlotClick() {
+        Plot selected = plotsTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            statusLabel.setText("Выберите участок для редактирования");
+            return;
+        }
+
+        TextInputDialog dialog = new TextInputDialog(String.valueOf(selected.getNumber()));
+        dialog.setTitle("Редактирование участка");
+        dialog.setHeaderText("Измените номер участка (должен быть уникален в пределах сектора):");
+        dialog.setContentText("Новый номер:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            String newNumberStr = result.get().trim();
+            if (newNumberStr.isEmpty()) {
+                statusLabel.setText("Номер не может быть пустым");
+                return;
+            }
+            int newNumber;
+            try {
+                newNumber = Integer.parseInt(newNumberStr);
+            } catch (NumberFormatException e) {
+                statusLabel.setText("Номер должен быть целым числом");
+                return;
+            }
+
+            // Проверка уникальности
+            if (plotDao.existsBySectionAndNumber(selected.getSectionId(), newNumber)) {
+                statusLabel.setText("Участок с таким номером уже существует в этом секторе");
+                return;
+            }
+
+            // Обновление
+            boolean success = plotDao.updatePlotNumber(selected.getId(), newNumber);
+            if (success) {
+                statusLabel.setText("Номер участка обновлён");
+                onSectionChanged();
+            } else {
+                statusLabel.setText("Ошибка при обновлении");
+            }
         }
     }
 

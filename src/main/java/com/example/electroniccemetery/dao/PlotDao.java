@@ -116,6 +116,7 @@ public class PlotDao {
         return null;
     }
 
+    //обновление
     public boolean updatePlotNumber(int plotId, int newNumber) {
         String sql = "UPDATE Plots SET Number_Plot = ? WHERE ID_Plot = ?";
         try (Connection conn = DbConnection.getConnection();

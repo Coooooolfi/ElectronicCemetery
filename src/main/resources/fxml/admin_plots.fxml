@@ -27,6 +27,7 @@
             <HBox spacing="10" alignment="CENTER">
                 <TextField fx:id="numberField" promptText="Номер участка" prefWidth="200" maxWidth="200"/>
                 <Button text="Сохранить" onAction="#onSaveClick" fx:id="saveBtn" prefWidth="150" maxWidth="150"/>
+                <Button text="Редактировать" onAction="#onEditPlotClick" />
             </HBox>
 
             <Label fx:id="statusLabel" textFill="red"/>

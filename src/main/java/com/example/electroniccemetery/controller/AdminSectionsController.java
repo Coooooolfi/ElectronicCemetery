@@ -225,7 +225,7 @@ public class AdminSectionsController {
                 return;
             }
 
-            // Обновление
+            // обновление
             boolean success = sectionDao.updateSectionNumber(selected.getId(), newNumber);
             if (success) {
                 statusLabel.setText("Номер сектора обновлён");

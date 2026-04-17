@@ -23,6 +23,7 @@
             <!-- только комбобокс без текста -->
             <ComboBox fx:id="cemeteryCombo" onAction="#onCemeteryChanged" prefWidth="300" maxWidth="300"/>
 
+            <!-- прибавили кнопошку редактировать -->
             <HBox spacing="10" alignment="CENTER">
                 <TextField fx:id="numberField" promptText="Номер сектора" prefWidth="200"/>
                 <Button text="Сохранить" onAction="#onSaveClick" fx:id="saveBtn" prefWidth="150"/>

@@ -62,6 +62,7 @@ public class SectionDao {
             return false;
         }
     }
+    // обновление
     public boolean updateSectionNumber(int sectionId, int newNumber) {
         String sql = "UPDATE Cemeteries_Sections SET Number_Section = ? WHERE ID_Section = ?";
         try (Connection conn = DbConnection.getConnection();

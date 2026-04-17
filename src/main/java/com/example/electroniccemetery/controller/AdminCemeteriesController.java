@@ -151,6 +151,7 @@ public class AdminCemeteriesController {
         }
     }
 
+    // обновление
     @FXML
     private void onUpdateClick() {
         Cemetery selected = cemeteriesTable.getSelectionModel().getSelectedItem();

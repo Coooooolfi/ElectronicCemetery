@@ -42,7 +42,8 @@
 
 
                 <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2">
-                    <Button text="Сохранить" onAction="#onSaveClick" fx:id="saveBtn" prefWidth="100"/>
+                    <Button text="Добавить кладбище" onAction="#onAddClick" />
+                    <Button text="Обновить выбранное" onAction="#onUpdateClick" />
                     <Button text="Удалить выбранное" onAction="#onDeleteClick" fx:id="deleteBtn" prefWidth="150"/>
                 </HBox>
             </GridPane>

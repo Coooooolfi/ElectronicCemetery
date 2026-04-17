@@ -138,4 +138,18 @@ public class CemeteryDao {
             return false;
         }
     }
+    public boolean updateCemetery(int id, String name, String address) {
+        String sql = "UPDATE Cemeteries SET Name_Cemetery = ?, Address = ? WHERE ID_Cemetery = ?";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ps.setString(2, address);
+            ps.setInt(3, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

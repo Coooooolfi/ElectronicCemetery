@@ -17,13 +17,12 @@ public class Main extends Application {
                 Objects.requireNonNull(Main.class.getResource("/img/appIcon.ico")).toExternalForm()
         ));
 
-        stage.setWidth(650);
+        stage.setWidth(850);
         stage.setHeight(600);
         stage.setMinWidth(650);
         stage.setMinHeight(700);
 
-        SceneNavigator.switchTo("start.fxml",
-                "Информационная система учёта захоронений");
+        SceneNavigator.switchTo("start.fxml", "Информационная система учёта захоронений");
     }
     public static void main(String[] args) {
         launch(args);

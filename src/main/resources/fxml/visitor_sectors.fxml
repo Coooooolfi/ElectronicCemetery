@@ -5,7 +5,7 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.electroniccemetery.controller.VisitorSectorsController"
-            prefWidth="650"
+            prefWidth="850"
             prefHeight="700"
             maxWidth="650"
             maxHeight="700">
@@ -33,7 +33,7 @@
             <content>
                 <VBox fx:id="sectorTiles"
                     spacing="10"
-                    maxWidth="600"
+                    maxWidth="850"
                     alignment="TOP_CENTER"/>
             </content>
         </ScrollPane>

@@ -149,7 +149,7 @@ public class AdminSectionsController {
             statusLabel.setText("Ошибка при добавлении сектора");
         }
     }
-    // - сектор
+    // - Сектор
     @FXML
     private void onDeleteSectionClick() {
         Section selected = sectionsTable.getSelectionModel().getSelectedItem();

@@ -74,7 +74,7 @@ public class SectionDao {
             return false;
         }
     }
-    // - сектор
+    // - Сектор
     public boolean deleteSection(int sectionId) {
         String sql = "DELETE FROM Cemeteries_Sections WHERE ID_Section = ?";
         try (Connection conn = DbConnection.getConnection();

@@ -20,7 +20,7 @@
         <VBox spacing="15" alignment="TOP_CENTER">
             <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
 
-            <!-- Только комбобокс без текста -->
+            <!-- только комбобокс без текста -->
             <ComboBox fx:id="cemeteryCombo" onAction="#onCemeteryChanged" prefWidth="300" maxWidth="300"/>
 
             <HBox spacing="10" alignment="CENTER">

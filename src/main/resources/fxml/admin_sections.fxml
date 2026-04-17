@@ -26,8 +26,9 @@
             <HBox spacing="10" alignment="CENTER">
                 <TextField fx:id="numberField" promptText="Номер сектора" prefWidth="200"/>
                 <Button text="Сохранить" onAction="#onSaveClick" fx:id="saveBtn" prefWidth="150"/>
+                <Button text="Редактировать" onAction="#onEditSectionClick" />
+                <Button text="Удалить выбранный сектор" onAction="#onDeleteSectionClick" />
             </HBox>
-
             <Label fx:id="statusLabel" textFill="red"/>
 
             <TableView fx:id="sectionsTable" prefHeight="300" prefWidth="400">

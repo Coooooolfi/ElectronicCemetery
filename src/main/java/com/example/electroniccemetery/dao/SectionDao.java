@@ -62,6 +62,30 @@ public class SectionDao {
             return false;
         }
     }
+    public boolean updateSectionNumber(int sectionId, int newNumber) {
+        String sql = "UPDATE Cemeteries_Sections SET Number_Section = ? WHERE ID_Section = ?";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, newNumber);
+            ps.setInt(2, sectionId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    // - сектор
+    public boolean deleteSection(int sectionId) {
+        String sql = "DELETE FROM Cemeteries_Sections WHERE ID_Section = ?";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, sectionId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     // поиск по ID (сектор)
     public Section findById(int sectionId) {
         String sql = "SELECT ID_Section, ID_Cemetery, Number_Section FROM Cemeteries_Sections WHERE ID_Section = ?";

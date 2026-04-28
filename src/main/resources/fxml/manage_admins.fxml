@@ -51,6 +51,7 @@
 
             <HBox spacing="10" alignment="CENTER">
                 <Button text="Назначить на кладбище" onAction="#onAssignCemeteryClick"/>
+                <Button text="Редактировать" onAction="#onEditAdminClick"/>
                 <Button text="Удалить" onAction="#onDeleteAdminClick"/>
             </HBox>
 

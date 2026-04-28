@@ -124,6 +124,25 @@ public class UserDao {
         }
     }
 
+    // обновление информации админа
+    public boolean updateAdmin(int userId, String lastName, String firstName, String othestvo,
+                               String login, String password) {
+        String sql = "UPDATE Users SET LastName=?, FirstName=?, Othestvo=?, Login=?, U_Password=? WHERE ID_User=?";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, lastName);
+            ps.setString(2, firstName);
+            ps.setString(3, othestvo);
+            ps.setString(4, login);
+            ps.setString(5, password);
+            ps.setInt(6, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // -админ
     public boolean deleteAdmin(int userId) {
         String sql = "DELETE FROM Users WHERE ID_User = ?";

@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -164,6 +165,69 @@ public class ManageAdminsController {
                 statusLabel.setText("Ошибка при удалении");
             }
         }
+    }
+
+    // редактирование администратора
+    @FXML
+    private void onEditAdminClick() {
+        User selected = adminsTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            statusLabel.setText("Выберите администратора для редактирования");
+            return;
+        }
+
+        // диалоговое окно редактирования
+        Dialog<User> dialog = new Dialog<>();
+        dialog.setTitle("Редактирование администратора");
+        dialog.setHeaderText("Измените данные: " + selected.getLogin());
+
+        // поля для ввода
+        TextField lastNameField = new TextField(selected.getLastName());
+        TextField firstNameField = new TextField(selected.getFirstName());
+        TextField othestvoField = new TextField(selected.getOthestvo());
+        TextField loginField = new TextField(selected.getLogin());
+        PasswordField passwordField = new PasswordField();
+        passwordField.setText(selected.getPassword());
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(new Label("Фамилия:"), 0, 0);
+        grid.add(lastNameField, 1, 0);
+        grid.add(new Label("Имя:"), 0, 1);
+        grid.add(firstNameField, 1, 1);
+        grid.add(new Label("Отчество:"), 0, 2);
+        grid.add(othestvoField, 1, 2);
+        grid.add(new Label("Логин:"), 0, 3);
+        grid.add(loginField, 1, 3);
+        grid.add(new Label("Пароль:"), 0, 4);
+        grid.add(passwordField, 1, 4);
+
+        dialog.getDialogPane().setContent(grid);
+        ButtonType saveButton = new ButtonType("Сохранить", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
+
+        dialog.setResultConverter(button -> {
+            if (button == saveButton) {
+                return new User(selected.getId(), selected.getRoleId(),
+                        lastNameField.getText(), firstNameField.getText(), othestvoField.getText(),
+                        loginField.getText(), passwordField.getText(),
+                        selected.getCemeteryId(), selected.getRoleName());
+            }
+            return null;
+        });
+
+        Optional<User> result = dialog.showAndWait();
+        result.ifPresent(updated -> {
+            if (userDao.updateAdmin(updated.getId(), updated.getLastName(), updated.getFirstName(),
+                    updated.getOthestvo(), updated.getLogin(), updated.getPassword())) {
+                statusLabel.setText("Данные обновлены");
+                loadAdmins();
+                adminsTable.refresh();
+            } else {
+                statusLabel.setText("Ошибка: логин уже существует");
+            }
+        });
     }
 
     @FXML

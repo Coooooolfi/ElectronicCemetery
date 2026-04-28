@@ -9,10 +9,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ManageAdminsController {
 
@@ -166,19 +169,60 @@ public class ManageAdminsController {
     @FXML
     private void onAssignCemeteryClick() {
         User selected = adminsTable.getSelectionModel().getSelectedItem();
-        Cemetery selectedCemetery = cemeteryCombo.getValue();
-
-        if (selected == null || selectedCemetery == null) {
-            statusLabel.setText("Выберите администратора и кладбище");
+        if (selected == null) {
+            statusLabel.setText("Выберите администратора");
+            return;
+        }
+        // список кладбищ
+        List<Cemetery> allCemeteries = userDao.findAllCemeteries();
+        if (allCemeteries.isEmpty()) {
+            statusLabel.setText("Нет доступных кладбищ");
             return;
         }
 
-        if (userDao.assignAdminToCemetery(selected.getId(), selectedCemetery.getId())) {
-            statusLabel.setText("Администратор назначен на " + selectedCemetery.getName());
-            loadAdmins();
-        } else {
-            statusLabel.setText("Ошибка при назначении");
-        }
+        // диалоговое окошко
+        Dialog<Cemetery> dialog = new Dialog<>();
+        dialog.setTitle("Назначение на кладбище");
+        dialog.setHeaderText("Выберите новое кладбище для администратора " + selected.getFullName());
+
+        // комбобокс для выбора кладбища для назначения
+        ComboBox<Cemetery> combo = new ComboBox<>();
+        combo.getItems().addAll(allCemeteries);
+        combo.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(Cemetery item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getName());
+            }
+        });
+        combo.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Cemetery item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getName());
+            }
+        });
+
+        VBox content = new VBox(10, new Label("Кладбище:"), combo);
+        content.setPadding(new Insets(10));
+        dialog.getDialogPane().setContent(content);
+
+        ButtonType okButton = new ButtonType("Назначить", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
+
+        // вывод результата
+        dialog.setResultConverter(button -> button == okButton ? combo.getValue() : null);
+
+        Optional<Cemetery> result = dialog.showAndWait();
+        result.ifPresent(cemetery -> {
+            if (userDao.assignAdminToCemetery(selected.getId(), cemetery.getId())) {
+                statusLabel.setText("Администратор назначен на " + cemetery.getName());
+                loadAdmins();
+                adminsTable.refresh();
+            } else {
+                statusLabel.setText("Ошибка при назначении");
+            }
+        });
     }
 
     @FXML

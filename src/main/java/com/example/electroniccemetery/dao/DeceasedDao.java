@@ -102,4 +102,42 @@ public class DeceasedDao {
         }
         return null;
     }
+
+    // вывод списка усопших определенного кладбища
+    public List<Deceased> findByCemeteryId(int cemeteryId) {
+        List<Deceased> list = new ArrayList<>();
+        String sql = "SELECT d.ID_Deceased, d.ID_Grave, d.LastName, d.FirstName, d.Othestvo, " +
+                "d.Birth_Date, d.Death_Date, d.Description, pd.Path_File " +
+                "FROM Deceased d " +
+                "JOIN Graves g ON d.ID_Grave = g.ID_Grave " +
+                "JOIN Plots p ON g.ID_Plot = p.ID_Plot " +
+                "JOIN Cemeteries_Sections s ON p.ID_Section = s.ID_Section " +
+                "LEFT JOIN Photo_Deceased pd ON d.ID_Deceased = pd.ID_Deceased " +
+                "WHERE s.ID_Cemetery = ? " +
+                "ORDER BY d.LastName, d.FirstName";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cemeteryId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    LocalDate birth = rs.getDate("Birth_Date") != null ? rs.getDate("Birth_Date").toLocalDate() : null;
+                    LocalDate death = rs.getDate("Death_Date") != null ? rs.getDate("Death_Date").toLocalDate() : null;
+                    Deceased d = new Deceased(
+                            rs.getInt("ID_Deceased"),
+                            rs.getInt("ID_Grave"),
+                            rs.getString("LastName"),
+                            rs.getString("FirstName"),
+                            rs.getString("Othestvo"),
+                            birth, death,
+                            rs.getString("Description"),
+                            rs.getString("Path_File")
+                    );
+                    list.add(d);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

@@ -32,21 +32,34 @@ public class VisitorCemeteriesController {
             HBox card = new HBox(10);
             card.getStyleClass().add("cemetery-card");
 
-            Text name = new Text(c.getName());
-            Text addr = new Text(c.getAddress());
+            VBox info = new VBox(new Text(c.getName()), new Text(c.getAddress()));
             Button open = new Button("Открыть");
-            open.setOnAction(e -> openSectors(c));
+            Button showDeceased = new Button("Список захороненных");
 
-            card.getChildren().addAll(new VBox(name, addr), open);
+            open.setOnAction(e -> openSectors(c));
+            showDeceased.setOnAction(e -> showDeceasedList(c));
+
+            card.getChildren().addAll(info, new HBox(10, open, showDeceased));
             cemeteryList.getChildren().add(card);
         }
     }
 
+    // открытие окна списка секторов выбранного кладбища
     private void openSectors(Cemetery cemetery) {
         SelectedContext.setCemetery(cemetery);
         SceneNavigator.switchTo("visitor_sectors.fxml",
                 "Секторы: " + cemetery.getName());
     }
+
+    // открытие окна усопших выбранного кладбища
+    @FXML
+    private void showDeceasedList(Cemetery cemetery) {
+        SelectedContext.setCemetery(cemetery);
+        SceneNavigator.switchTo("cemetery_deceased_list.fxml",
+                "Захороненные на кладбище: " + cemetery.getName());
+    }
+
+    // возвращение назад
     @FXML
     private void onHomeClick() {
         SceneNavigator.switchTo("start.fxml",
@@ -54,6 +67,7 @@ public class VisitorCemeteriesController {
 
     }
 
+    // переход на окно поиска
     @FXML
     private void onSearchClick() {
         String q = searchField.getText();

@@ -18,8 +18,8 @@
                        promptText="Поиск умершего по ФИО"
                        maxWidth="400"
                        HBox.hgrow="ALWAYS"/>
-            <Button text="Найти" onAction="#onSearchClick"
-                    prefWidth="80" maxWidth="80"/>
+            <Button text="Найти" onAction="#onSearchClick" prefWidth="80" maxWidth="80"/>
+
         </HBox>
     </top>
 

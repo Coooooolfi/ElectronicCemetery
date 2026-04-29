@@ -209,9 +209,21 @@ public class ManageAdminsController {
 
         dialog.setResultConverter(button -> {
             if (button == saveButton) {
+                String lastName = lastNameField.getText().trim();
+                String firstName = firstNameField.getText().trim();
+                String login = loginField.getText().trim();
+                String password = passwordField.getText();
+
+                // проверка (если поле пустое - ошибка)
+                if (lastName.isEmpty() || firstName.isEmpty() || login.isEmpty() || password.isEmpty()) {
+                    statusLabel.setText("Ошибка: фамилия, имя, логин и пароль должны быть заполнены");
+                    return null;
+                }
+
+                // все заплонено - все хорошо
                 return new User(selected.getId(), selected.getRoleId(),
-                        lastNameField.getText(), firstNameField.getText(), othestvoField.getText(),
-                        loginField.getText(), passwordField.getText(),
+                        lastName, firstName, othestvoField.getText().trim(),
+                        login, password,
                         selected.getCemeteryId(), selected.getRoleName());
             }
             return null;

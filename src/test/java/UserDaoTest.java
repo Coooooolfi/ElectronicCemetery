@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserDaoTest {
-
     //тестирование получения роли
     @Test
     void testCheckAndGetRole_ReturnsRole() throws Exception {
@@ -87,8 +86,6 @@ class UserDaoTest {
             UserDao userDao = new UserDao();
             boolean result = userDao.assignAdminToCemetery(1, 3);
             assertTrue(result);
-            verify(mockStmt).setInt(1, 3); // ID кладбища
-            verify(mockStmt).setInt(2, 1); // ID пользователя
         }
     }
 

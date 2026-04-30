@@ -36,4 +36,75 @@ class UserDaoTest {
             assertEquals("Администратор", role);
         }
     }
+
+
+    //  функция редактирования администратора
+    @Test
+    void testUpdateAdminSuccess() throws Exception {
+        // Mock-объекты
+        Connection mockConn = mock(Connection.class);
+        PreparedStatement mockStmt = mock(PreparedStatement.class);
+        when(mockConn.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeUpdate()).thenReturn(1); // одна строка обновлена
+
+        try (MockedStatic<DbConnection> mockedDb = mockStatic(DbConnection.class)) {
+            mockedDb.when(DbConnection::getConnection).thenReturn(mockConn);
+            UserDao userDao = new UserDao();
+            boolean result = userDao.updateAdmin(1, "Иванов", "Иван", "Иванович", "ivan", "pass");
+            assertTrue(result);
+            // проверка, что параметры SQL установлены корректно
+            verify(mockStmt).setString(1, "Иванов");
+            verify(mockStmt).setInt(6, 1);
+        }
+    }
+
+    //проверка дублиования данных
+    @Test
+    void testUpdateAdminDuplicateLogin() throws Exception {
+        Connection mockConn = mock(Connection.class);
+        PreparedStatement mockStmt = mock(PreparedStatement.class);
+        when(mockConn.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeUpdate()).thenReturn(0); // ничего не обновлено
+
+        try (MockedStatic<DbConnection> mockedDb = mockStatic(DbConnection.class)) {
+            mockedDb.when(DbConnection::getConnection).thenReturn(mockConn);
+            UserDao userDao = new UserDao();
+            boolean result = userDao.updateAdmin(2, "Петров", "Петр", null, "admin1", "123");
+            assertFalse(result);
+        }
+    }
+
+    // функция переназначения кладбища для администратора
+    @Test
+    void testAssignAdminToCemeterySuccess() throws Exception {
+        Connection mockConn = mock(Connection.class);
+        PreparedStatement mockStmt = mock(PreparedStatement.class);
+        when(mockConn.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeUpdate()).thenReturn(1);
+
+        try (MockedStatic<DbConnection> mockedDb = mockStatic(DbConnection.class)) {
+            mockedDb.when(DbConnection::getConnection).thenReturn(mockConn);
+            UserDao userDao = new UserDao();
+            boolean result = userDao.assignAdminToCemetery(1, 3);
+            assertTrue(result);
+            verify(mockStmt).setInt(1, 3); // ID кладбища
+            verify(mockStmt).setInt(2, 1); // ID пользователя
+        }
+    }
+
+    //ложное срабатывание назначения
+    @Test
+    void testAssignAdminToCemeteryFail() throws Exception {
+        Connection mockConn = mock(Connection.class);
+        PreparedStatement mockStmt = mock(PreparedStatement.class);
+        when(mockConn.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeUpdate()).thenReturn(0);
+
+        try (MockedStatic<DbConnection> mockedDb = mockStatic(DbConnection.class)) {
+            mockedDb.when(DbConnection::getConnection).thenReturn(mockConn);
+            UserDao userDao = new UserDao();
+            boolean result = userDao.assignAdminToCemetery(999, 999);
+            assertFalse(result);
+        }
+    }
 }

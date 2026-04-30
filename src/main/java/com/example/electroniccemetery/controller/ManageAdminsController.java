@@ -214,13 +214,13 @@ public class ManageAdminsController {
                 String login = loginField.getText().trim();
                 String password = passwordField.getText();
 
-                // проверка (если поле пустое - ошибка)
+                //проверка (если поле пустое - ошибка)
                 if (lastName.isEmpty() || firstName.isEmpty() || login.isEmpty() || password.isEmpty()) {
                     statusLabel.setText("Ошибка: фамилия, имя, логин и пароль должны быть заполнены");
-                    return null;
+                    return null; // диалог не закроется
                 }
 
-                // все заплонено - все хорошо
+                //все заплонено - все хорошо
                 return new User(selected.getId(), selected.getRoleId(),
                         lastName, firstName, othestvoField.getText().trim(),
                         login, password,

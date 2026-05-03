@@ -67,9 +67,15 @@ public class VisitorBurialController {
     }
     @FXML
     private void onBackClick() {
-        SceneNavigator.switchTo("visitor_graves.fxml", "Захоронения");
+        String prev = SelectedContext.getPreviousScene();
+        if ("deceased_list".equals(prev)) {
+            SceneNavigator.switchTo("cemetery_deceased_list.fxml", "Захороненные на кладбище");
+        } else if ("search".equals(prev)) {
+            SceneNavigator.switchTo("search_results.fxml", "Результаты поиска");
+        } else {
+            SceneNavigator.switchTo("visitor_graves.fxml", "Захоронения");
+        }
     }
-
     @FXML
     private void onSearchClick() {
         String q = searchField.getText();

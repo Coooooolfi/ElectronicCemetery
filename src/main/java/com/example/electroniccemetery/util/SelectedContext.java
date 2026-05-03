@@ -46,4 +46,8 @@ public class SelectedContext {
         currentUserCemeteryId = null;
         currentUserLogin = null;
     }
+
+    private static String previousScene;
+    public static String getPreviousScene() { return previousScene; }
+    public static void setPreviousScene(String scene) { previousScene = scene; }
 }

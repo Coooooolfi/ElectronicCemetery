@@ -48,6 +48,7 @@ public class VisitorGravesController {
 
             Text number = new Text("Захоронение №" + g.getNumber());
             Button open = new Button("Просмотреть");
+            SelectedContext.setPreviousScene("graves");
             open.setOnAction(e -> {
                 SelectedContext.setGrave(g);
                 SceneNavigator.switchTo("visitor_burial.fxml",

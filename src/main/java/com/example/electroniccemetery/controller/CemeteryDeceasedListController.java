@@ -57,6 +57,7 @@ public class CemeteryDeceasedListController {
             Text pathText = new Text(path == null ? "" : "Место: " + path);
 
             Button openBtn = new Button("Открыть захоронение");
+            SelectedContext.setPreviousScene("deceased_list");
             openBtn.setOnAction(e -> {
                 // получаем захоронение по ID
                 int graveId = d.getGraveId();

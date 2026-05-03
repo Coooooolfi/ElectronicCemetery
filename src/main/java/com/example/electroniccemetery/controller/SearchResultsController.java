@@ -1,8 +1,13 @@
 package com.example.electroniccemetery.controller;
 
 import com.example.electroniccemetery.dao.DeceasedDao;
+import com.example.electroniccemetery.dao.GraveDao;
+import com.example.electroniccemetery.dao.PlotDao;
+import com.example.electroniccemetery.dao.SectionDao;
 import com.example.electroniccemetery.model.Deceased;
 import com.example.electroniccemetery.model.Grave;
+import com.example.electroniccemetery.model.Plot;
+import com.example.electroniccemetery.model.Section;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
 import javafx.fxml.FXML;
@@ -68,9 +73,23 @@ public class SearchResultsController {
     }
 
     private void openBurial(Deceased d) {
-        // создание захоронения
-        Grave g = new Grave(d.getGraveId(), 0, d.getGraveId(), null);
-        SelectedContext.setGrave(g);
+        int graveId = d.getGraveId();
+        GraveDao graveDao = new GraveDao();
+        Grave grave = graveDao.findById(graveId);
+        if (grave != null) {
+            PlotDao plotDao = new PlotDao();
+            Plot plot = plotDao.findPlotById(grave.getPlotId());
+            if (plot != null) {
+                SectionDao sectionDao = new SectionDao();
+                Section section = sectionDao.findById(plot.getSectionId());
+                SelectedContext.setSection(section);
+                SelectedContext.setPlot(plot);
+            }
+            SelectedContext.setGrave(grave);
+        } else {
+            SelectedContext.setGrave(new Grave(graveId, 0, graveId, null));
+        }
+        SelectedContext.setPreviousScene("search");
         SceneNavigator.switchTo("visitor_burial.fxml", "Захоронение");
     }
 

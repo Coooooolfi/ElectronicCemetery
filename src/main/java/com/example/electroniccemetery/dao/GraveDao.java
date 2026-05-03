@@ -33,4 +33,27 @@ public class GraveDao {
         }
         return list;
     }
+    public Grave findById(int graveId) {
+        String sql = "SELECT g.ID_Grave, g.ID_Plot, g.Number_Grave, pb.Path_File " +
+                "FROM Graves g " +
+                "LEFT JOIN Photo_Burial pb ON g.ID_Grave = pb.ID_Grave " +
+                "WHERE g.ID_Grave = ?";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, graveId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Grave(
+                            rs.getInt("ID_Grave"),
+                            rs.getInt("ID_Plot"),
+                            rs.getInt("Number_Grave"),
+                            rs.getString("Path_File")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

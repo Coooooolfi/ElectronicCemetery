@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.electroniccemetery.controller.UserRegisterController"
+            prefWidth="650" prefHeight="700" maxWidth="650" maxHeight="700">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <Button text="Назад" onAction="#onBackClick"/>
+            <Label text="Регистрация пользователя" styleClass="title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+            <TextField fx:id="lastNameField" promptText="Фамилия *" prefWidth="300"/>
+            <TextField fx:id="firstNameField" promptText="Имя *" prefWidth="300"/>
+            <TextField fx:id="othestvoField" promptText="Отчество" prefWidth="300"/>
+            <TextField fx:id="loginField" promptText="Логин *" prefWidth="300"/>
+            <PasswordField fx:id="passwordField" promptText="Пароль *" prefWidth="300"/>
+            <PasswordField fx:id="confirmPasswordField" promptText="Повторите пароль *" prefWidth="300"/>
+
+            <Button text="Зарегистрироваться" onAction="#onRegisterClick" prefWidth="200"/>
+
+            <Label fx:id="errorLabel"/>
+
+            <Hyperlink text="Уже есть аккаунт? Войти" onAction="#onBackToLoginClick"/>
+        </VBox>
+    </center>
+</BorderPane>

@@ -13,6 +13,7 @@ public class SelectedContext {
     private static String currentUserRole;
     private static Integer currentUserCemeteryId;
     private static String currentUserLogin;
+    private static int currentUserId = 0;
 
     // Гетеры и сетеры
     public static Cemetery getCemetery() { return currentCemetery; }
@@ -36,6 +37,9 @@ public class SelectedContext {
     public static String getCurrentUserLogin() { return currentUserLogin; }
     public static void setCurrentUserLogin(String login) { currentUserLogin = login; }
 
+    public static int getCurrentUserId () { return currentUserId; }
+    public static void setCurrentUserId (int id) { currentUserId = id; }
+
     // очистка контекста при выходе
     public static void clear() {
         currentCemetery = null;
@@ -45,6 +49,9 @@ public class SelectedContext {
         currentUserRole = null;
         currentUserCemeteryId = null;
         currentUserLogin = null;
+    }
+    public static boolean isUserLoggedIn() {
+        return currentUserId > 0 && "Пользователь".equals(currentUserRole);
     }
 
     private static String previousScene;

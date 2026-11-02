@@ -14,6 +14,8 @@
         <VBox spacing="5">
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Button text="Назад" onAction="#onBackClick"/>
+                <Button text="Мой профиль" onAction="#onProfileClick" fx:id="profileBtn"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
                 <Label text="Выбран" styleClass="title"/>
                 <Label fx:id="sectorLabel" styleClass="title"/>
             </HBox>

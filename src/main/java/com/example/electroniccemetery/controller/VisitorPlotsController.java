@@ -5,6 +5,7 @@ import com.example.electroniccemetery.model.Plot;
 import com.example.electroniccemetery.model.Section;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class VisitorPlotsController {
 
+    @FXML private Button profileBtn;
     @FXML private Label sectorLabel;
     @FXML private VBox plotList;
     @FXML private TextField searchField;
@@ -27,6 +29,11 @@ public class VisitorPlotsController {
         if (s != null) {
             sectorLabel.setText("Сектор " + s.getNumber());
             loadPlots(s.getId());
+        }
+        if (profileBtn != null) {
+            boolean isUser = SelectedContext.isUserLoggedIn();
+            profileBtn.setVisible(isUser);
+            profileBtn.setManaged(isUser);
         }
     }
 
@@ -55,5 +62,10 @@ public class VisitorPlotsController {
         if (q == null || q.isBlank()) return;
         SearchResultsController.setQuery(q);
         SceneNavigator.switchTo("search_results.fxml", "Поиск: " + q);
+    }
+
+    @FXML
+    private void onProfileClick() {
+        SceneNavigator.switchTo("user_profile.fxml", "Личный кабинет");
     }
 }

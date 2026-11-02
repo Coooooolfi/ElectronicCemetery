@@ -1,6 +1,7 @@
 package com.example.electroniccemetery.controller;
 
 import com.example.electroniccemetery.dao.DeceasedDao;
+import com.example.electroniccemetery.dao.RelativeDao;
 import com.example.electroniccemetery.dao.GraveDao;
 import com.example.electroniccemetery.dao.PlotDao;
 import com.example.electroniccemetery.dao.SectionDao;
@@ -12,6 +13,7 @@ import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -25,6 +27,7 @@ public class SearchResultsController {
 
     private static String lastQuery;
     private final DeceasedDao deceasedDao = new DeceasedDao();
+    private final RelativeDao relativeDao = new RelativeDao();
     private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
 
@@ -68,6 +71,26 @@ public class SearchResultsController {
             openBtn.setOnAction(e -> openBurial(d));
 
             card.getChildren().addAll(name, pathText, dateText, desc, openBtn);
+
+            // Кнопка добавления в профиль
+            if (SelectedContext.isUserLoggedIn()) {
+                int userId = SelectedContext.getCurrentUserId();
+                if (relativeDao.isRelativeAdded(userId, d.getId())) {
+                    Label added = new Label("Уже добавлено");
+                    added.setStyle("-fx-text-fill: green;");
+                    card.getChildren().add(added);
+                } else {
+                    Button addBtn = new Button("Добавить в профиль");
+                    addBtn.setOnAction(e -> {
+                        if (relativeDao.addRelative(userId, d.getId())) {
+                            addBtn.setDisable(true);
+                            addBtn.setText("Добавлено");
+                            addBtn.setStyle("-fx-background-color: #4CAF50;");
+                        }
+                    });
+                    card.getChildren().add(addBtn);
+                }
+            }
             resultsBox.getChildren().add(card);
         }
     }
@@ -95,6 +118,14 @@ public class SearchResultsController {
 
     @FXML
     private void onBackClick() {
-        SceneNavigator.switchTo("visitor_cemeteries.fxml", "Список кладбищ");
+        if (SelectedContext.isUserLoggedIn()) {
+            SceneNavigator.switchTo("user_profile.fxml", "Личный кабинет");
+        } else {
+            SceneNavigator.switchTo("visitor_cemeteries.fxml", "Список кладбищ");
+        }
+    }
+    @FXML
+    private void onProfileClick() {
+        SceneNavigator.switchTo("user_profile.fxml", "Личный кабинет");
     }
 }

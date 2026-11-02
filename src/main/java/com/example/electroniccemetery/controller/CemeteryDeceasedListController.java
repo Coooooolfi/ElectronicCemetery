@@ -59,20 +59,15 @@ public class CemeteryDeceasedListController {
             Button openBtn = new Button("Открыть захоронение");
             SelectedContext.setPreviousScene("deceased_list");
             openBtn.setOnAction(e -> {
-                // получаем захоронение по ID
                 int graveId = d.getGraveId();
                 GraveDao graveDao = new GraveDao();
                 Grave grave = graveDao.findById(graveId);
                 if (grave != null) {
-                    PlotDao plotDao = new PlotDao();
-                    Plot plot = plotDao.findPlotById(grave.getPlotId());
-                    SelectedContext.setPlot(plot);
-
-                    SectionDao sectionDao = new SectionDao();
-                    Section section = sectionDao.findById(plot.getSectionId());
-                    SelectedContext.setSection(section);
+                    SelectedContext.setGrave(grave);
+                } else {
+                    SelectedContext.setGrave(new Grave(graveId, 0, graveId, null));
                 }
-                SelectedContext.setGrave(new Grave(graveId, 0, graveId, null));
+                SelectedContext.setPreviousScene("deceased_list");
                 SceneNavigator.switchTo("visitor_burial.fxml", "Захоронение");
             });
 
@@ -84,5 +79,9 @@ public class CemeteryDeceasedListController {
     @FXML
     private void onBackClick() {
         SceneNavigator.switchTo("visitor_cemeteries.fxml", "Список кладбищ");
+    }
+    @FXML
+    private void onProfileClick() {
+        SceneNavigator.switchTo("user_profile.fxml", "Личный кабинет");
     }
 }

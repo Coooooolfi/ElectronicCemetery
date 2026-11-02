@@ -20,6 +20,8 @@
                             prefWidth="120" maxWidth="120"/>
                     <Button text="Посетитель" onAction="#onVisitorClick"
                             prefWidth="120" maxWidth="120"/>
+                    <Button text="Пользователь" onAction="#onUserClick"
+                            prefWidth="120" maxWidth="120"/>
                 </HBox>
             </VBox>
         </StackPane>

@@ -49,7 +49,6 @@ public class CemeteryDao {
     public boolean deleteCascadeCemetery(int cemeteryId) {
         try (Connection conn = DbConnection.getConnection()) {
             conn.setAutoCommit(false);
-
             try {
                 // Удаление фоток усопшего
                 String deletePhotoDeceased = "DELETE FROM Photo_Deceased WHERE ID_Deceased IN " +
@@ -62,7 +61,6 @@ public class CemeteryDao {
                     ps.setInt(1, cemeteryId);
                     ps.executeUpdate();
                 }
-
                 // Удаление усопших
                 String deleteDeceased = "DELETE FROM Deceased WHERE ID_Grave IN " +
                         "(SELECT g.ID_Grave FROM Graves g " +
@@ -73,7 +71,6 @@ public class CemeteryDao {
                     ps.setInt(1, cemeteryId);
                     ps.executeUpdate();
                 }
-
                 // Удаление фото захоронений
                 String deletePhotoBurial = "DELETE FROM Photo_Burial WHERE ID_Grave IN " +
                         "(SELECT g.ID_Grave FROM Graves g " +
@@ -84,7 +81,6 @@ public class CemeteryDao {
                     ps.setInt(1, cemeteryId);
                     ps.executeUpdate();
                 }
-
                 // Сами захоронения сносим
                 String deleteGraves = "DELETE FROM Graves WHERE ID_Plot IN " +
                         "(SELECT p.ID_Plot FROM Plots p " +
@@ -94,7 +90,6 @@ public class CemeteryDao {
                     ps.setInt(1, cemeteryId);
                     ps.executeUpdate();
                 }
-
                 // - Участки
                 String deletePlots = "DELETE FROM Plots WHERE ID_Section IN " +
                         "(SELECT ID_Section FROM Cemeteries_Sections WHERE ID_Cemetery = ?)";
@@ -102,41 +97,36 @@ public class CemeteryDao {
                     ps.setInt(1, cemeteryId);
                     ps.executeUpdate();
                 }
-
                 // - сектора
                 String deleteSections = "DELETE FROM Cemeteries_Sections WHERE ID_Cemetery = ?";
                 try (PreparedStatement ps = conn.prepareStatement(deleteSections)) {
                     ps.setInt(1, cemeteryId);
                     ps.executeUpdate();
                 }
-
                 // - связи с администраторами
                 String updateUsers = "UPDATE Users SET ID_Cemetery = NULL WHERE ID_Cemetery = ?";
                 try (PreparedStatement ps = conn.prepareStatement(updateUsers)) {
                     ps.setInt(1, cemeteryId);
                     ps.executeUpdate();
                 }
-
                 // - кладбище (снесли) :(
                 String deleteCemetery = "DELETE FROM Cemeteries WHERE ID_Cemetery = ?";
                 try (PreparedStatement ps = conn.prepareStatement(deleteCemetery)) {
                     ps.setInt(1, cemeteryId);
                     ps.executeUpdate();
                 }
-
                 conn.commit();
                 return true;
-
             } catch (SQLException e) {
                 conn.rollback();
                 e.printStackTrace();
                 return false;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+
     }
     public boolean updateCemetery(int id, String name, String address) {
         String sql = "UPDATE Cemeteries SET Name_Cemetery = ?, Address = ? WHERE ID_Cemetery = ?";

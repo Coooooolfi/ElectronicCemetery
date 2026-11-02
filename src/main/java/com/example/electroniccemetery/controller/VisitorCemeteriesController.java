@@ -62,9 +62,10 @@ public class VisitorCemeteriesController {
     // возвращение назад
     @FXML
     private void onHomeClick() {
-        SceneNavigator.switchTo("start.fxml",
-                "Информационная система учёта захоронений");
-
+        if (SelectedContext.isUserLoggedIn()) {
+            SceneNavigator.switchTo("user_profile.fxml", "Личный кабинет");
+        } else {SceneNavigator.switchTo("start.fxml", "Информационная система учёта захоронений");
+        }
     }
 
     // переход на окно поиска

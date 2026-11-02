@@ -15,4 +15,9 @@ public class StartController {
     public void onVisitorClick(ActionEvent event) {
         SceneNavigator.switchTo("visitor_cemeteries.fxml", "Список кладбищ");
     }
+
+    @FXML
+    public void onUserClick(ActionEvent event) {
+        SceneNavigator.switchTo("user_login.fxml", "Вход пользователя");
+    }
 }

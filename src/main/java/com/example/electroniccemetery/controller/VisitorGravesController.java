@@ -5,6 +5,7 @@ import com.example.electroniccemetery.model.Grave;
 import com.example.electroniccemetery.model.Plot;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class VisitorGravesController {
 
+    @FXML private Button profileBtn;
     @FXML private Label plotLabel;
     @FXML private VBox graveList;
     @FXML private TextField searchField;
@@ -31,6 +33,11 @@ public class VisitorGravesController {
         if (p != null) {
             plotLabel.setText("Участок " + p.getNumber());
             loadGraves(p.getId());
+        }
+        if (profileBtn != null) {
+            boolean isUser = SelectedContext.isUserLoggedIn();
+            profileBtn.setVisible(isUser);
+            profileBtn.setManaged(isUser);
         }
     }
 
@@ -70,5 +77,10 @@ public class VisitorGravesController {
         if (q == null || q.isBlank()) return;
         SearchResultsController.setQuery(q);
         SceneNavigator.switchTo("search_results.fxml", "Поиск: " + q);
+    }
+
+    @FXML
+    private void onProfileClick() {
+        SceneNavigator.switchTo("user_profile.fxml", "Личный кабинет");
     }
 }

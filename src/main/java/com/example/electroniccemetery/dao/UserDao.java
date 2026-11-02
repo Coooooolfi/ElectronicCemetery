@@ -155,4 +155,83 @@ public class UserDao {
             return false;
         }
     }
+
+    // Регистрация и авторизация пользователя
+    // Проверка того, существует ли логин
+    public boolean loginExists (String login) {
+        String sql = "SELECT 1 FROM Users WHERE Login = ?";
+        try (Connection conn = DbConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, login);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Регистрация пользователя и присвоение ему роли
+    public int registerUser(String lastName, String firstName, String othestvo,
+                            String login, String password) {
+        String sql = "INSERT INTO Users (ID_Role, LastName, FirstName, Othestvo, Login, U_Password, ID_Cemetery) " +
+                "VALUES (3, ?, ?, ?, ?, ?, NULL) RETURNING ID_User";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, lastName);
+            ps.setString(2, firstName);
+            ps.setString(3, othestvo);
+            ps.setString(4, login);
+            ps.setString(5, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("ID_User");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    // Проверка входа пользователя
+    public int checkUserLogin(String login, String password) {
+        String sql = "SELECT u.ID_User FROM Users u " +
+                "JOIN C_Role r ON u.ID_Role = r.ID_Role " +
+                "WHERE u.Login = ? AND u.U_Password = ? AND r.Name_Role = 'Пользователь'";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, login);
+            ps.setString(2, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("ID_User");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    // Получение ФИО по ID
+    public String getUserFullName(int userId) {
+        String sql = "SELECT LastName, FirstName, Othestvo FROM Users WHERE ID_User = ?";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String ln = rs.getString("LastName");
+                    String fn = rs.getString("FirstName");
+                    String ot = rs.getString("Othestvo");
+                    return (ln + " " + fn + " " + (ot == null ? "" : ot)).trim();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

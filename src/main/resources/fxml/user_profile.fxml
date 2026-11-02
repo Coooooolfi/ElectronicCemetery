@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.electroniccemetery.controller.UserProfileController"
+            prefWidth="800" prefHeight="700" maxWidth="800" maxHeight="700">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <Button text="Выйти" onAction="#onLogoutClick"/>
+            <Label text="Личный кабинет" styleClass="title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+            <Label fx:id="welcomeLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+            <Separator/>
+
+            <Label text="Мои родственники:" style="-fx-font-size: 16px;"/>
+
+            <TableView fx:id="relativesTable" prefHeight="350">
+                <columns>
+                    <TableColumn fx:id="colLastName" text="Фамилия" prefWidth="120"/>
+                    <TableColumn fx:id="colFirstName" text="Имя" prefWidth="120"/>
+                    <TableColumn fx:id="colOthestvo" text="Отчество" prefWidth="130"/>
+                    <TableColumn fx:id="colBirth" text="Дата рождения" prefWidth="120"/>
+                    <TableColumn fx:id="colDeath" text="Дата смерти" prefWidth="120"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Открыть захоронение" onAction="#onOpenBurialClick" prefWidth="180"/>
+                <Button text="Удалить из профиля" onAction="#onRemoveClick" prefWidth="180"/>
+            </HBox>
+
+            <Separator/>
+
+            <HBox alignment="CENTER">
+                <Button text="К списку кладбищ"
+                        onAction="#onFindRelativesClick" prefWidth="400"/>
+            </HBox>
+
+            <Label fx:id="statusLabel" textFill="red"/>
+        </VBox>
+    </center>
+</BorderPane>

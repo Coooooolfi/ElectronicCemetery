@@ -4,6 +4,7 @@ import com.example.electroniccemetery.dao.UserDao;
 import com.example.electroniccemetery.model.Cemetery;
 import com.example.electroniccemetery.model.User;
 import com.example.electroniccemetery.util.SceneNavigator;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -134,11 +135,13 @@ public class ManageAdminsController {
 
         int id = userDao.createAdmin(lastName, firstName, othestvo, login, password, selected.getId());
         if (id > 0) {
+            LoggerUtil.info("Создан администратор: " + login + " (кладбище ID=" + selected.getId() + ")");
             statusLabel.setText("Администратор создан, ID = " + id);
             statusLabel.setStyle("-fx-text-fill: green;");
             clearForm();
             loadAdmins();
         } else {
+            LoggerUtil.warning("Ошибка создания администратора: " + login);
             statusLabel.setText("Ошибка: логин уже существует");
             statusLabel.setStyle("-fx-text-fill: red;");
         }
@@ -159,9 +162,11 @@ public class ManageAdminsController {
 
         if (confirm.showAndWait().get() == ButtonType.OK) {
             if (userDao.deleteAdmin(selected.getId())) {
+                LoggerUtil.info("Удалён администратор: " + selected.getLogin());
                 statusLabel.setText("Администратор удалён");
                 loadAdmins();
             } else {
+                LoggerUtil.warning("Ошибка удаления администратора: " + selected.getLogin());
                 statusLabel.setText("Ошибка при удалении");
             }
         }
@@ -230,10 +235,12 @@ public class ManageAdminsController {
         result.ifPresent(updated -> {
             if (userDao.updateAdmin(updated.getId(), updated.getLastName(), updated.getFirstName(),
                     updated.getOthestvo(), updated.getLogin(), updated.getPassword())) {
+                LoggerUtil.info("Отредактирован администратор: " + updated.getLogin());
                 statusLabel.setText("Данные обновлены");
                 loadAdmins();
                 adminsTable.refresh();
             } else {
+                LoggerUtil.warning("Ошибка редактирования администратора: " + updated.getLogin());
                 statusLabel.setText("Ошибка: логин уже существует");
             }
         });
@@ -289,10 +296,12 @@ public class ManageAdminsController {
         Optional<Cemetery> result = dialog.showAndWait();
         result.ifPresent(cemetery -> {
             if (userDao.assignAdminToCemetery(selected.getId(), cemetery.getId())) {
+                LoggerUtil.info("Администратор: " + selected.getLogin() + " назначен на кладбище " + cemetery.getName());
                 statusLabel.setText("Администратор назначен на " + cemetery.getName());
                 loadAdmins();
                 adminsTable.refresh();
             } else {
+                LoggerUtil.warning("Ошибка добавления администратора: " + selected.getLogin() + " на кладбище " + cemetery.getName());
                 statusLabel.setText("Ошибка при назначении");
             }
         });

@@ -4,6 +4,7 @@ import com.example.electroniccemetery.dao.CemeteryDao;
 import com.example.electroniccemetery.dao.SectionDao;
 import com.example.electroniccemetery.model.Cemetery;
 import com.example.electroniccemetery.util.SceneNavigator;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -93,11 +94,13 @@ public class AdminCemeteriesController {
                 for (int i = 1; i <= sections; i++) {
                     sectionDao.insertSection(cemeteryId, i);
                 }
+                LoggerUtil.info("Добавлено кладбище: " + name + "(TD=" + cemeteryId + ")");
             }
-            statusLabel.setText("Кладбище добавлено, ID = " + cemeteryId);
+            statusLabel.setText("Кладбище добавлено, ID=" + cemeteryId);
             clearForm();
             loadCemeteries();
         } else {
+            LoggerUtil.warning("Ошибка при добавлении кладбища: " + name);
             statusLabel.setText("Ошибка при добавлении");
         }
     }
@@ -124,7 +127,9 @@ public class AdminCemeteriesController {
             statusLabel.setText("Кладбище обновлено");
             clearForm();
             loadCemeteries();
+            LoggerUtil.info("Обновлено кладбище ID=" + selected.getId() + ", новое наименование: " + newName);
         } else {
+            LoggerUtil.warning("Ошибка обновления кладбища ID=" + selected.getId());
             statusLabel.setText("Ошибка обновления");
         }
     }
@@ -149,7 +154,9 @@ public class AdminCemeteriesController {
                 statusLabel.setText("Кладбище удалено");
                 clearForm();
                 loadCemeteries();
+                LoggerUtil.info("Удалено кладбище ID=" + selected.getId() + " (" + selected.getName() + ")");
             } else {
+                LoggerUtil.warning("Ошибка удаления кладбища ID=" + selected.getId());
                 statusLabel.setText("Ошибка при удалении");
             }
         } else {

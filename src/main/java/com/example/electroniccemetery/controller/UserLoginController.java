@@ -3,6 +3,7 @@ package com.example.electroniccemetery.controller;
 import com.example.electroniccemetery.dao.UserDao;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -34,7 +35,9 @@ public class UserLoginController {
             SelectedContext.setCurrentUserLogin(login);
             SelectedContext.setCurrentUserRole("Пользователь");
             SceneNavigator.switchTo("user_profile.fxml", "Личный кабинет");
+            LoggerUtil.info("Вход выполнен");
         } else {
+            LoggerUtil.warning("Неудачная попытка входа: " + login);
             errorLabel.setText("Неверный логин или пароль");
         }
     }
@@ -46,6 +49,7 @@ public class UserLoginController {
 
     @FXML
     private void onBackClick() {
+        LoggerUtil.info("Выход из системы (Пользователь)");
         SceneNavigator.switchTo("start.fxml", "Информационная система учёта захоронений");
     }
     @FXML

@@ -6,6 +6,7 @@ import com.example.electroniccemetery.model.Cemetery;
 import com.example.electroniccemetery.model.Section;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -145,7 +146,9 @@ public class AdminSectionsController {
             statusLabel.setText("Сектор добавлен, ID = " + id);
             numberField.clear();
             loadSections();
+            LoggerUtil.info("Добавлен сектор №" + number + " на кладбище ID=" + currentCemeteryId);
         } else {
+            LoggerUtil.warning("Ошибка добавления сектора №" + number + " на кладбище ID=" + currentCemeteryId);
             statusLabel.setText("Ошибка при добавлении сектора");
         }
     }
@@ -168,9 +171,11 @@ public class AdminSectionsController {
             // Вызываем метод удаления из дао сектора
             boolean success = sectionDao.deleteSection(selected.getId());
             if (success) {
+                LoggerUtil.info("Удален сектор ID=" + selected.getId() + " (№" + selected.getNumber() + ")");
                 statusLabel.setText("Сектор удалён");
                 loadSections();
             } else {
+                LoggerUtil.warning("Ошибка удаления сектора ID=" + selected.getId());
                 statusLabel.setText("Ошибка при удалении сектора");
             }
         } else {
@@ -228,9 +233,11 @@ public class AdminSectionsController {
             // обновление
             boolean success = sectionDao.updateSectionNumber(selected.getId(), newNumber);
             if (success) {
+                LoggerUtil.info("Изменён номер сектора ID=" + selected.getId() + " на №" + newNumber);
                 statusLabel.setText("Номер сектора обновлён");
                 loadSections();
             } else {
+                LoggerUtil.warning("Ошибка изменения  номера сектора ID=" + selected.getId());
                 statusLabel.setText("Ошибка при обновлении");
             }
         }

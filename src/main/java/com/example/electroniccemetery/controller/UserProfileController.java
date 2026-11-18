@@ -6,6 +6,7 @@ import com.example.electroniccemetery.dao.UserDao;
 import com.example.electroniccemetery.model.Deceased;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -74,10 +75,12 @@ public class UserProfileController {
         confirm.setContentText(selected.getFullName());
 
         if (confirm.showAndWait().get() == ButtonType.OK) {
+            LoggerUtil.info("Удалён из профиля усопший ID=" + selected.getId());
             if (relativeDao.removeRelative(SelectedContext.getCurrentUserId(), selected.getId())) {
                 statusLabel.setText("Удалено из профиля");
                 loadRelatives();
             } else {
+                LoggerUtil.warning("Ошибка удаления из профиля усопшего ID=" + selected.getId());
                 statusLabel.setText("Ошибка удаления");
             }
         }

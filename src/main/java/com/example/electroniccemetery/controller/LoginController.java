@@ -3,6 +3,7 @@ package com.example.electroniccemetery.controller;
 import com.example.electroniccemetery.dao.UserDao;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -35,6 +36,7 @@ public class LoginController {
             SelectedContext.setCurrentUserLogin(login);
             SelectedContext.setCurrentUserRole(role);
             SelectedContext.setCurrentUserCemeteryId(userDao.getUserCemeteryId(login));
+            LoggerUtil.info("Вход выполнен: " + role);
 
             // Отладка
             System.out.println("Login successful: role=" + role + ", cemeteryId=" + SelectedContext.getCurrentUserCemeteryId());
@@ -47,6 +49,7 @@ public class LoginController {
                 errorLabel.setText("Неизвестная роль пользователя");
             }
         } else {
+            LoggerUtil.warning("Неудачная попытка входа: " + login);
             errorLabel.setText("Неверный логин или пароль");
         }
     }

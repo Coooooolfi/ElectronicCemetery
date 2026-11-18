@@ -4,6 +4,7 @@ import com.example.electroniccemetery.dao.*;
 import com.example.electroniccemetery.model.*;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,26 +17,16 @@ import java.util.Optional;
 
 public class AdminPlotsController {
 
-    @FXML
-    private ComboBox<Cemetery> cemeteryCombo;
-    @FXML
-    private ComboBox<Section> sectionCombo;
-    @FXML
-    private TextField numberField;
-    @FXML
-    private Label statusLabel;
-    @FXML
-    private TableView<Plot> plotsTable;
-    @FXML
-    private TableColumn<Plot, Number> colId;
-    @FXML
-    private TableColumn<Plot, Number> colNumber;
-    @FXML
-    private TableColumn<Plot, String> colSection;
-    @FXML
-    private Button backBtn;
-    @FXML
-    private Button saveBtn;
+    @FXML private ComboBox<Cemetery> cemeteryCombo;
+    @FXML private ComboBox<Section> sectionCombo;
+    @FXML private TextField numberField;
+    @FXML private Label statusLabel;
+    @FXML private TableView<Plot> plotsTable;
+    @FXML private TableColumn<Plot, Number> colId;
+    @FXML private TableColumn<Plot, Number> colNumber;
+    @FXML private TableColumn<Plot, String> colSection;
+    @FXML private Button backBtn;
+    @FXML private Button saveBtn;
 
     private final CemeteryDao cemeteryDao = new CemeteryDao();
     private final SectionDao sectionDao = new SectionDao();
@@ -190,10 +181,12 @@ public class AdminPlotsController {
 
         int id = plotDao.insertPlot(selectedSection.getId(), number);
         if (id > 0) {
+            LoggerUtil.info("Добавлен участок №" + number + " в сектор ID=" + selectedSection.getId());
             statusLabel.setText("Участок добавлен, ID = " + id);
             numberField.clear();
             onSectionChanged();
         } else {
+            LoggerUtil.warning("Ошибка добавления участка №" + number + " в сектор ID=" + selectedSection.getId());
             statusLabel.setText("Ошибка при добавлении участка");
         }
     }
@@ -234,9 +227,11 @@ public class AdminPlotsController {
             // Обновление
             boolean success = plotDao.updatePlotNumber(selected.getId(), newNumber);
             if (success) {
+                LoggerUtil.info("Изменён номер участка ID=" + selected.getId() + " на №" + newNumber);
                 statusLabel.setText("Номер участка обновлён");
                 onSectionChanged();
             } else {
+                LoggerUtil.warning("Ошибка изменения номера участка ID=" + selected.getId());
                 statusLabel.setText("Ошибка при обновлении");
             }
         }
@@ -257,9 +252,11 @@ public class AdminPlotsController {
 
         if (confirm.showAndWait().get() == ButtonType.OK) {
             if (plotDao.deletePlot(selected.getId())) {
+                LoggerUtil.info("Удалён участок ID=" + selected.getId() + " (№" + selected.getNumber() + ")");
                 statusLabel.setText("Участок удалён");
                 onSectionChanged();
             } else {
+                LoggerUtil.warning("Ошибка удаления участка ID=" + selected.getId());
                 statusLabel.setText("Ошибка при удалении");
             }
         }

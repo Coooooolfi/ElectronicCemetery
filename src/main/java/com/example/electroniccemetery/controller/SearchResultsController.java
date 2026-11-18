@@ -11,6 +11,7 @@ import com.example.electroniccemetery.model.Plot;
 import com.example.electroniccemetery.model.Section;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -46,6 +47,7 @@ public class SearchResultsController {
     private void loadResults(String query) {
         resultsBox.getChildren().clear();
         List<Deceased> list = deceasedDao.searchByFio(query);
+        LoggerUtil.info("Поиск по ФИО: \"" + query + "\", найдено: " + list.size());
         if (list.isEmpty()) {
             resultsBox.getChildren().add(new Text("Ничего не найдено по запросу: " + query));
             return;
@@ -83,9 +85,12 @@ public class SearchResultsController {
                     Button addBtn = new Button("Добавить в профиль");
                     addBtn.setOnAction(e -> {
                         if (relativeDao.addRelative(userId, d.getId())) {
+                            LoggerUtil.info("Пользователь добавил в профиль усопшего ID=" + d.getId());
                             addBtn.setDisable(true);
                             addBtn.setText("Добавлено");
                             addBtn.setStyle("-fx-background-color: #4CAF50;");
+                        } else {
+                            LoggerUtil.warning("Ошибка добавления в профиль усопшего ID=" + d.getId());
                         }
                     });
                     card.getChildren().add(addBtn);

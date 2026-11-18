@@ -6,6 +6,7 @@ import com.example.electroniccemetery.dao.RelativeDao;
 import com.example.electroniccemetery.model.Grave;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -76,9 +77,12 @@ public class VisitorBurialController {
                     Button addBtn = new Button("Добавить в профиль");
                     addBtn.setOnAction(e -> {
                         if (relativeDao.addRelative(userId, d.getId())) {
+                            LoggerUtil.info("Добавлен в профиль усопший ID=" + d.getId());
                             addBtn.setDisable(true);
                             addBtn.setText("Добавлено");
                             addBtn.setStyle("-fx-background-color: #4CAF50;");
+                        } else {
+                            LoggerUtil.warning("Ошибка добавления в профиль усопшего ID=" + d.getId());
                         }
                     });
                     card.getChildren().add(addBtn);

@@ -4,6 +4,7 @@ import com.example.electroniccemetery.dao.CemeteryDao;
 import com.example.electroniccemetery.model.Cemetery;
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -61,6 +62,7 @@ public class AdminController {
 
     @FXML
     private void onLogoutClick() {
+        LoggerUtil.info("Выход из системы (Администратор)");
         SelectedContext.clear();
         fixWindowSize();
         SceneNavigator.switchTo("start.fxml", "Информационная система учёта захоронений");

@@ -3,6 +3,7 @@ package com.example.electroniccemetery.dao;
 import com.example.electroniccemetery.model.Cemetery;
 import com.example.electroniccemetery.model.User;
 import com.example.electroniccemetery.util.DbConnection;
+import com.example.electroniccemetery.util.LoggerUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -230,7 +231,7 @@ public class UserDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.error("SQL ошибка в CemeteryDao.findAll", e);
         }
         return "";
     }

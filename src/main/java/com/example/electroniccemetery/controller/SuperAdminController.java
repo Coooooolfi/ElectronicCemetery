@@ -2,6 +2,7 @@ package com.example.electroniccemetery.controller;
 
 import com.example.electroniccemetery.util.SceneNavigator;
 import com.example.electroniccemetery.util.SelectedContext;
+import com.example.electroniccemetery.util.LoggerUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -45,6 +46,7 @@ public class SuperAdminController {
 
     @FXML
     private void onLogoutClick() {
+        LoggerUtil.info("Выход из системы (Супер-администратор)");
         SelectedContext.clear();
         SceneNavigator.switchTo("start.fxml", "Информационная система учёта захоронений");
     }

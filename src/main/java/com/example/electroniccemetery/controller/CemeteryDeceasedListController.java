@@ -21,6 +21,7 @@ public class CemeteryDeceasedListController {
 
     @FXML private Label cemeteryNameLabel;
     @FXML private VBox deceasedContainer;
+    @FXML private Button profileBtn;
 
     private final DeceasedDao deceasedDao = new DeceasedDao();
     private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -31,6 +32,11 @@ public class CemeteryDeceasedListController {
         if (cemetery != null) {
             cemeteryNameLabel.setText(cemetery.getName());
             loadDeceasedList(cemetery.getId());
+        }
+        if (profileBtn != null) {
+            boolean isUser = SelectedContext.isUserLoggedIn();
+            profileBtn.setVisible(isUser);
+            profileBtn.setManaged(isUser);
         }
     }
 

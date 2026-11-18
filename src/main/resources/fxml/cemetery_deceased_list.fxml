@@ -10,6 +10,8 @@
     <top>
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Button text="Назад" onAction="#onBackClick"/>
+            <Button text="Мой профиль" onAction="#onProfileClick" fx:id="profileBtn"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
             <Label text="Захороненные на кладбище:" styleClass="title"/>
             <Label fx:id="cemeteryNameLabel" styleClass="title"/>
         </HBox>
